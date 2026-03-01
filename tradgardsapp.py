@@ -1,21 +1,19 @@
 import streamlit as st
 import pandas as pd
 import requests
+import gspread
+from google.oauth2.service_account import Credentials
 
-HEADERS = {"User-Agent": "TradgardsApp/1.0"}
 VAXTER_PER_SIDA = 12
 
 @st.cache_data(ttl=300)
 def ladda_databas():
-    import subprocess
-    result = subprocess.run(["gcloud", "auth", "print-access-token"], capture_output=True, text=True)
-    token = result.stdout.strip()
-    FIL_ID = "1Pax0R2T-vQ8vZ9NAvSfac1N5tS55a26QOynWRnScQAI"
-    url = f"https://sheets.googleapis.com/v4/spreadsheets/{FIL_ID}/values/Sheet1"
-    headers = {"Authorization": f"Bearer {token}"}
-    r = requests.get(url, headers=headers)
-    data = r.json()
-    rows = data["values"]
+    scopes = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    creds_dict = st.secrets["gcp_service_account"]
+    creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
+    gc = gspread.authorize(creds)
+    blad = gc.open_by_key("1Pax0R2T-vQ8vZ9NAvSfac1N5tS55a26QOynWRnScQAI").sheet1
+    rows = blad.get_all_values()
     max_kol = len(rows[0])
     for rad in rows[1:]:
         while len(rad) < max_kol:
@@ -59,7 +57,6 @@ def vaxt_kort(v, visa_bilder):
             st.markdown(f"🌱 {skotsel}")
 
 st.set_page_config(page_title="Trädgårdsväljaren", layout="wide", page_icon="🌿")
-
 st.markdown("""<style>
 .main { background-color: #f9fdf9; }
 .stButton>button { background-color: #2d7a2d; color: white; border-radius: 8px; border: none; padding: 8px 20px; }
@@ -70,13 +67,12 @@ st.title("Trädgårdsplanerarens Växtväljare")
 st.caption("Hitta rätt växter för just din trädgård")
 
 df = ladda_databas()
-
 sok_text = st.text_input("Sök växt direkt på namn", placeholder="t.ex. Tomat, Ros, Lavendel...")
 
 with st.sidebar:
     st.markdown("## Filtrera växter")
     st.markdown("**Obligatoriska val**")
-    zon = st.slider("Växtzon", 1, 8, 4, help="1-2 Norrland | 3-4 Mellansverige | 5-6 Mälardalen | 7-8 Skåne")
+    zon = st.slider("Växtzon", 1, 8, 4)
     sol = st.selectbox("Solförhållanden", ["sol", "halvskugga", "skugga"])
     jord = st.selectbox("Jordmån", ["mull", "lera", "sand"])
     stil = st.selectbox("Trädgårdsstil", [""] + ["romantisk","japansk","modern","medelhav","gammaldags","cottage","vildträdgård","formell","nordisk","köksträdgård","krukodling"])
