@@ -63,8 +63,8 @@ st.markdown("""<style>
 .stButton>button:hover { background-color: #1f5c1f; }
 </style>""", unsafe_allow_html=True)
 
-st.title("Trädgårdsplanerarens Växtväljare")
-st.caption("Hitta rätt växter för just din trädgård")
+st.title("Växtväljaren")
+st.caption("Hitta rätt växt för just din trädgård")
 
 df = ladda_databas()
 sok_text = st.text_input("Sök växt direkt på namn", placeholder="t.ex. Tomat, Ros, Lavendel...")
