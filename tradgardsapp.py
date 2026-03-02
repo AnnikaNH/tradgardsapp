@@ -79,7 +79,7 @@ with st.sidebar:
     st.divider()
     st.markdown("**Valfria filter**")
     farg = st.selectbox("Blomfärg", [""] + ["vit","rosa","röd","lila","blå","gul","orange","blandad","grön","svart"])
-    typ = st.selectbox("Växttyp", [""] + ["perenn","annuell","buske","träd","klätterväxt","lök","gräs","ormbunke","grönsak","frukt","krydda"])
+    typ = st.selectbox("Växttyp", [""] + ["perenn","annuell","buske","träd","klätterväxt","lök","gräs","ormbunke","grönsak","frukt","krydda","ros","dahlia","clematis","pelargon"])
     hojd = st.selectbox("Höjd", [""] + ["låg","medel","hög"])
     st.divider()
     st.markdown("**Blomningsperiod**")
