@@ -4,7 +4,7 @@ import requests
 import gspread
 from google.oauth2.service_account import Credentials
 
-VAXTER_PER_SIDA = 12  # Pixabay migration complete
+VAXTER_PER_SIDA = 12  # 588 växter
 
 @st.cache_data(ttl=300)
 def ladda_databas():
