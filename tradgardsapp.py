@@ -71,10 +71,10 @@ sok_text = st.text_input("Sök växt direkt på namn", placeholder="t.ex. Tomat,
 
 with st.sidebar:
     st.markdown("## Filtrera växter")
-    st.markdown("**Obligatoriska val**")
-    zon = st.slider("Växtzon", 1, 8, 4)
+    st.markdown("**Filter**")
+    zon = st.slider("Växtzon (visa växter upp till och med zon)", 1, 8, 8)
     sol = st.selectbox("Solförhållanden", ["", "sol", "halvskugga", "skugga"])
-    jord = st.selectbox("Jordmån", ["", "mull", "lera", "sand", "normal", "fuktig", "torr", "sand"])
+    jord = st.selectbox("Jordmån", ["", "mull", "lera", "sand", "normal", "fuktig", "torr"])
     stil = st.selectbox("Trädgårdsstil", [""] + ["romantisk","japansk","modern","medelhav","gammaldags","cottage","vildträdgård","formell","nordisk","köksträdgård","krukodling"])
     st.divider()
     st.markdown("**Valfria filter**")
