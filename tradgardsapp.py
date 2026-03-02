@@ -26,10 +26,10 @@ def ladda_databas():
 
 def sok_filter(df, zon, sol, jord, stil, farg, typ, hojd, blom_fran, blom_till):
     res = df.copy()
-    res = res[res["sol"] == sol]
-    res = res[res["zon_min"] <= zon]
+    if sol: res = res[res["sol"] == sol]
+    if zon: res = res[res["zon_min"] <= zon]
     jord_kol = "jordmån" if "jordmån" in res.columns else "jordman"
-    res = res[res[jord_kol].isin([jord, "alla"])]
+    if jord: res = res[res[jord_kol].isin([jord, "alla"])]
     if stil: res = res[res["stil"] == stil]
     farg_kol = "färg" if "färg" in res.columns else "farg"
     if farg: res = res[res[farg_kol] == farg]
@@ -73,8 +73,8 @@ with st.sidebar:
     st.markdown("## Filtrera växter")
     st.markdown("**Obligatoriska val**")
     zon = st.slider("Växtzon", 1, 8, 4)
-    sol = st.selectbox("Solförhållanden", ["sol", "halvskugga", "skugga"])
-    jord = st.selectbox("Jordmån", ["mull", "lera", "sand"])
+    sol = st.selectbox("Solförhållanden", ["", "sol", "halvskugga", "skugga"])
+    jord = st.selectbox("Jordmån", ["", "mull", "lera", "sand", "normal", "fuktig", "torr", "sand"])
     stil = st.selectbox("Trädgårdsstil", [""] + ["romantisk","japansk","modern","medelhav","gammaldags","cottage","vildträdgård","formell","nordisk","köksträdgård","krukodling"])
     st.divider()
     st.markdown("**Valfria filter**")
